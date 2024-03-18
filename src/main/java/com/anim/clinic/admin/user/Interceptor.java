@@ -14,7 +14,7 @@ public class Interceptor extends HandlerInterceptorAdapter {
 	static final String[] EXCLUDE_URL_LIST = { "/main", "/clogin", "/cjoin", "/findId", "/findPw", "/SendSMS",
 			"/checkEmail", "/mypage", "/clientLogout.action", "/cjoin.action", "/login/getKakaoAuthUrl",
 			"/login/oauth_kakao", "/admin", "/aindex", "/memberList", "/memberDetail",
-			"/resvForm", "resvList", "payTest"
+			"/resvForm", "/resvList", "/payTest"
 	};
 
 	@Override
