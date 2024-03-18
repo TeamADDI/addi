@@ -16,10 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.anim.clinic.admin.user.biz.AUserDAO;
-import com.anim.clinic.admin.user.biz.AUserBean;
-import com.anim.clinic.client.user.biz.UserDAO;
 import com.anim.clinic.client.user.biz.UserBean;
+import com.anim.clinic.client.user.biz.UserDAO;
 
 @Controller
 public class UserController {
@@ -87,8 +85,13 @@ public class UserController {
 
 			String getUserId = (String) userId.getU_id();
 			String getUserPw = (String) userId.getU_pw();
-			System.out.println("getUserPw : " + getUserPw);
+			System.out.println("getUserPw : " + getUserPw); 
 			if (getUserId.equals("admin") && getUserPw.equals(u_pw)) { 
+				String referrer = (String) session.getAttribute("referrer");
+				if (referrer != null) {
+					return referrer;
+				}
+				
 				return "redirect:/aindex";
 			}
 

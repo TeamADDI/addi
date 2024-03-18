@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anim.clinic.client.resv.biz.ResvDAO">
+ 	<select id="selectPriceCl" resultType="java.lang.Integer">
+		SELECT p_price AS pPrice FROM pet
+		WHERE p_category = 'CL'
+	</select>
+	
+    <select id="selectPriceBtca" resultType="java.lang.Integer">
+        SELECT p_price AS pPrice FROM pet
+        WHERE p_category = #{pCategory} AND p_size = #{pSize}
+    </select>
+	
+	<select id="selectMaxRNo" resultType="java.lang.Integer">
+		SELECT MAX(r_no) AS rNo FROM resv
+	</select>
+	
+	<insert id="insertResv" parameterType="com.anim.clinic.client.resv.biz.ResvBean">
+		INSERT INTO resv(r_code, p_category, u_id, 
+		u_name, u_tel, u_email, u_post, u_addr, 
+		r_name, r_tel, 
+		r_pet_name, r_pet_age, r_pet_gender, r_pet_type, r_pet_size, 
+		r_detail, r_status, r_date, r_time)
+		VALUES( #{rCode}, #{pCategory}, 
+		#{uId}, #{uName}, #{uTel}, #{uEmail}, #{uPost}, #{uAddr}, 
+		#{rName}, #{rTel},
+		#{rPetName}, #{rPetAge}, #{rPetGender}, #{rPetType}, #{rPetSize}, 
+		#{rDetail}, #{rStatus}, #{rDate}, #{rTime} )
+	</insert>
+	
+	<select id="selectResvList" resultType="com.anim.clinic.client.resv.biz.ResvBean">
+		SELECT resv.r_no AS rNo, resv.r_code AS rCode, resv.p_category AS pCategory, 
+			resv.u_id AS uId, resv.u_name AS uName, resv.u_tel AS uTel, resv.u_email AS uEmail, resv.u_post AS uPost, resv.u_addr AS uAddr, 
+			resv.r_name AS rName, resv.r_tel AS rTel, 
+			resv.r_pet_name AS rPetName, resv.r_pet_age AS rPetAge, resv.r_pet_gender AS rPetGender, resv.r_pet_type AS rPetType, resv.r_pet_size AS rPetSize, 
+			resv.r_detail AS rDetail, resv.r_status AS rStatus, resv.r_regdate AS rRegdate, resv.r_date AS rDate, resv.r_time AS rTime,
+			pet.p_price AS rPrice
+		FROM resv
+		JOIN pet ON resv.p_category = pet.p_category
+        		AND (resv.r_pet_size = pet.p_size OR resv.p_category = 'CL')
+		WHERE resv.r_code LIKE CONCAT ('%', #{code})
+	</select>
+	
+	<select id="checkResv" resultType="com.anim.clinic.client.resv.biz.ResvBean">
+		SELECT r_no AS rNo, r_code AS rCode, p_category AS pCategory, 
+			u_id AS uId, u_name AS uName, u_tel AS uTel, u_email AS uEmail, u_post AS uPost, u_addr AS uAddr, 
+			r_name AS rName, r_tel AS rTel, 
+			r_pet_name AS rPetName, r_pet_age AS rPetAge, r_pet_gender AS rPetGender, r_pet_type AS rPetType, r_pet_size AS rPetSize, 
+			r_detail AS rDetail, r_status AS rStatus, r_regdate AS rRegdate, r_date AS rDate, r_time AS rTime
+		FROM resv
+		WHERE 
+		p_category = #{pCategory}
+		u_name = #{rName}
+		AND r_pet_name = #{rPetName}
+		AND r_date = #{rDate}
+		AND r_time = #{rTime}
+	</select>
+	
+
+	
+	<!-- 
+	<select id="list" resultType="com.anim.clinic.admin.resv.biz.AResvBean">
+		SELECT r_no AS rNo, r_code AS rCode, u_id AS uId, u_name AS uName, r_email AS rEmail,
+		       r_category AS rCategory, r_age AS rAge, r_gender AS rGender, r_tel AS rTel,
+		       r_post AS rPost, r_addr AS rAddr, pet_name AS petName, pet_type AS petType,
+		       pet_gender AS petGender, pet_age AS petAge, pet_size AS petSize,
+		       r_regdate AS rRegdate, r_detail AS rDetail, r_date AS rDate, r_time AS rTime
+		FROM res
+	</select>
+	<select id="info" resultType="org.sp.mybatis.Emp">
+		select * from emp2 where empno=#{empno}
+	</select>
+	
+	<insert id="insert" parameterType="org.sp.mybatis.Emp">
+		insert into emp2 (empno, ename, deptno, job, sal)
+		values ( #{empno}, #{ename}, #{deptno}, #{job}, #{sal} )
+	</insert>
+	
+	<update id="update" parameterType="org.sp.mybatis.Emp">
+		update emp2 set deptno=#{deptno}, sal=#{sal}
+		where empno=#{empno}
+	</update>
+	
+	<delete id="delete">
+		delete from emp2 where empno=#{empno}
+	</delete>
+	 -->
+</mapper>
