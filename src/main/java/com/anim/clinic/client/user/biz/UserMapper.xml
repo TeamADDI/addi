@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.anim.clinic.client.user.biz.UserDAO">
+
+	<select id="pickId"
+		resultType="com.anim.clinic.client.user.biz.UserBean">
+		select u_id, u_pw from users where u_id = #{u_id}
+	</select>
+
+	<select id="detail"
+		resultType="com.anim.clinic.client.user.biz.UserBean">
+		select u_id, u_pw, u_name, u_tel, u_email, u_birth, u_addr from users
+		where u_id = #{u_id}
+	</select>
+
+	<insert id="insert"
+		parameterType="com.anim.clinic.client.user.biz.UserBean">
+		insert into users (u_id, u_pw, u_name, u_email, u_tel, u_birth,
+		u_age, u_gender, u_post, u_addr)
+		values ( #{u_id}, #{u_pw}, #{u_name}, #{u_email}, #{u_tel},
+		#{u_birth}, #{u_age}, #{u_gender}, #{u_post}, #{u_addr})
+	</insert>
+
+
+
+
+</mapper>
