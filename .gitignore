@@ -1,1 +1,5 @@
+# 라이브러리
 src/main/webapp/WEB-INF/lib/
+
+# pom.properties
+target/m2e-wtp/web-resources/META-INF/maven/com.anim/clinic/pom.properties
