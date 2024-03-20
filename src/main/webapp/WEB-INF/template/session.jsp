@@ -17,3 +17,16 @@ if (ses != null && ses.getAttribute("u_id") != null) {
 	}
 }
 %>
+
+<!-- client
+
+HttpSession ses = request.getSession(false);
+
+if (ses != null && ses.getAttribute("u_id") != null) {
+	String u_id = (String) ses.getAttribute("u_id");
+		System.out.println("계속 진행하셔도 됩니다 세션 아이디는 : " + u_id);
+	} else {
+		System.out.println("세션에 아이디가 없습니다.(client)");
+		response.sendRedirect(request.getContextPath() + "/index.jsp");
+	}
+ -->

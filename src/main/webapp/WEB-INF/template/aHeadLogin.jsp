@@ -60,7 +60,7 @@
    }
 }
 .navbar-brand{
-	font-size:2.5rem;
+	font-size:2.8rem;
 	margin: 0 auto;
 }
 .nav-link{

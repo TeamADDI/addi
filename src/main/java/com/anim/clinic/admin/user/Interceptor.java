@@ -11,10 +11,8 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 public class Interceptor extends HandlerInterceptorAdapter {
 	private static final Logger logger = LoggerFactory.getLogger(Interceptor.class);
 
-	static final String[] EXCLUDE_URL_LIST = { "/main", "/clogin", "/cjoin", "/findId", "/findPw", "/SendSMS",
-			"/checkEmail", "/mypage", "/clientLogout.action", "/cjoin.action", "/login/getKakaoAuthUrl",
-			"/login/oauth_kakao", "/admin", "/aindex", "/memberList", "/memberDetail", "/callback","/naversave",
-			"/client/item/list", "/client/item/detail/num/", "/resvForm", "/resvList", "/payTest"
+	static final String[] EXCLUDE_URL_LIST = { "/login", "/clientLogin", "/admin", "/clogin", "/cjoin", "/adminLogout",
+			"/clientLogout.action"
 	};
 
 	@Override
@@ -30,15 +28,14 @@ public class Interceptor extends HandlerInterceptorAdapter {
 		}
 
 		HttpSession session = request.getSession();
-		String uId = request.getParameter("u_id");
-		session.setAttribute("u_id", uId);
 		String u_id = (String) session.getAttribute("u_id");
+		System.out.println("현재 u_id 값은 : " + u_id + " 입니다.(인터셉터)");
 
 		if (u_id == null || u_id.trim().equals("")) {
 			logger.info(">> interceptor catch!!! u_id is null.. ");
 			session.invalidate();
 			System.out.println("세션에 값이 들어오지 않았습니다 인덱스 페이지로 이동합니다.");
-			response.sendRedirect(request.getContextPath() + "/index.jsp");
+			response.sendRedirect(request.getContextPath() + "/");
 
 			return false;
 		}

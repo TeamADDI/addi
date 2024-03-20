@@ -105,13 +105,13 @@ public class AUserController {
 		}
 	}
 
-	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	@RequestMapping(value = "/adminLogout", method = RequestMethod.GET)
 	public String logoutMainGET(HttpSession session) {
 
 		session.removeAttribute("u_id");
 
 		System.out.println("현재 세션에 아이디: " + session.getAttribute("u_id"));
-		return "redirect:/index.jsp";
+		return "admin/user/admin";
 
 	}
 

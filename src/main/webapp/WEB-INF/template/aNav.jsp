@@ -22,10 +22,10 @@
                     <% if (session.getAttribute("u_id") != null) { %>
                         <%-- 세션에 admin이 담겨있는 경우 --%>
                         <% if ("admin".equals(session.getAttribute("u_id"))) { %>
-                            <li class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/adminLogout">로그아웃</a></li>
                              <li class="nav-item"><a class="nav-link" href="/aindex">클라이언트</a></li>
                         <% } else { %>
-                             <li class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>
+                             <li class="nav-item"><a class="nav-link" href="/clientLogout.action">로그아웃</a></li>
                              <li class="nav-item"><a class="nav-link" href="/mypage">내정보</a></li>
                         <% } %>
                     <%-- 세션에 u_id가 없는 경우 --%>
@@ -37,3 +37,5 @@
          </div>
       </nav>
    </header>
+   <div class = "container">
+   		<div class = "wrapper">
