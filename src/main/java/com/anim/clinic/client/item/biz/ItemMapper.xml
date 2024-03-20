@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.anim.clinic.client.item.biz.ItemDao">
+	<select id="itemList" resultType="com.anim.clinic.client.item.biz.ItemBean">
+		<![CDATA[
+			select item_num, i_img, item_name, i_price, i_regdate from item
+			order by item_num desc  
+		]]>
+		
+	</select>	
+	
+	<select id="itemDetail" resultType="com.anim.clinic.client.item.biz.ItemBean">
+		<![CDATA[
+	        select item_num, i_img, item_name, i_category, i_detail, i_price, i_sale
+	        from item
+	        where item_num = #{item_num}   
+	    ]]>
+	</select>
+</mapper>
