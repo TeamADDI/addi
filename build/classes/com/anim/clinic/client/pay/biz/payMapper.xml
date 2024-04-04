@@ -1,0 +1,39 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.anim.clinic.client.pay.biz.PayDAO">
+	<select id="list"
+		resultType="com.anim.clinic.client.pay.biz.PayBean">
+		select * from pay_ready
+	</select>
+
+	<insert id="insertPayDetail"
+		parameterType="com.anim.clinic.client.pay.biz.KakaoPayApprovalBean">
+
+		INSERT INTO pay (aid, tid, cid, partner_order_id,
+		partner_user_id,
+		item_name,
+		pg_token, payment_method_type, total_amount,
+		quantity, tax_free_amount,
+		tax_vat,
+		approved_at, created_at)
+
+		VALUES (
+		#{aid},
+		#{tid},
+		#{cid},
+		#{partner_order_id},
+		#{partner_user_id},
+		#{item_name},
+		#{pg_token},
+		#{payment_method_type},
+		#{amount.total},
+		#{quantity},
+		#{amount.tax_free},
+		#{amount.vat},
+		#{approved_at},
+		#{created_at}
+		)
+	</insert>
+
+</mapper>

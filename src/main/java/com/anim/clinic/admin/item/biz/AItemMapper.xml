@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="aItem">
+ 	
+ 	<insert id="insert" parameterType="hashMap" useGeneratedKeys="true" keyProperty="item_num">  
+	    <![CDATA[
+	    insert into item
+	    (item_code, i_category, item_name, i_img, i_detail, i_stock, i_price, i_sale, i_tax_free) 
+	    values
+	    (#{item_code}, #{i_category}, #{item_name}, #{i_img}, #{i_detail}, #{i_stock}, #{i_price}, #{i_sale}, #{i_tax_free})
+	    ]]>
+	</insert>
+	
+	<select id="select_detail" parameterType="hashMap" resultType="hashMap">
+	    <![CDATA[
+	        select	item_num, item_code, i_category, item_name, i_img, i_regdate,
+	 		i_updatedate, i_detail, i_stock, i_price, i_sale, i_delete, i_tax_free
+	        from item
+	        where item_num = #{itemNum}   
+	    ]]>
+	</select>
+	
+	
+	<update id="update" parameterType="hashMap">
+		<![CDATA[
+			update item set
+			item_code = #{item_code}, i_category = #{i_category}, item_name= #{item_name},
+			i_img = #{i_img}, i_detail = #{i_detail}, i_stock = #{i_stock}, i_price = #{i_price},
+			i_sale = #{i_sale}, i_delete = #{i_delete}, i_tax_free = #{i_tax_free}, i_updatedate = now()
+			where item_num = #{itemNum} 
+		]]>
+	</update>
+	
+	<delete id="delete" parameterType="hashMap">  
+		<![CDATA[  
+			delete from item  
+			where  
+			item_Num = #{itemNum}  
+		]]>  
+	</delete>  
+	
+	<!-- 
+		<select id="select_list" parameterType="hashMap" resultType="hashMap">  
+		<![CDATA[  
+			select item_num, item_code, i_category, item_name, i_img, i_regdate,
+	 		i_updatedate, i_detail, i_stock, i_price, i_sale, i_delete, i_tax_free 
+			from  item
+			where 1=1
+		]]>
+		<if test="keyword != null and keyword != ''">
+		and (item_name like CONCAT('%', #{keyword}, '%') or i_category like CONCAT
+		('%',#{keyword},'%'))
+		</if>  	  
+			order by item_num desc  
+	
+	</select>  
+	 -->
+	<select id="list" parameterType="hashMap" resultType="hashMap">
+		<![CDATA[  
+			select item_num, item_code, i_category, item_name, i_img, i_regdate,
+	 		i_updatedate, i_detail, i_stock, i_price, i_sale, i_delete, i_tax_free 
+			from  item
+			where 1=1
+		]]>
+		<if test="keyword != null and keyword != ''">
+		and (item_name like CONCAT('%', #{keyword}, '%') or i_category like CONCAT
+		('%',#{keyword},'%'))
+		</if>  	  
+			order by item_num desc  
+			LIMIT #{startIndex}, #{pageSize} 
+	</select>
+	
+	<select id="getTotalCount" resultType="int">
+		SELECT count(*)
+		FROM item
+	</select>
+	
+	
+
+</mapper>

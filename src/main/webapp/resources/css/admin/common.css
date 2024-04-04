@@ -1,0 +1,83 @@
+body {	
+	margin: 0 auto;
+	padding: 0;
+	background: white !important;
+}
+
+.navbar {
+	padding: .5rem 1rem;
+}
+
+.navbar-brand {
+	font-size: 2.5rem;
+	margin-left: 10%;
+	font-family: Gulim;
+	font-weight: bold;
+}
+
+.nav-link {
+	font-size: 1.5rem;
+}
+
+.nav-nav {
+	padding: 0 50px;
+}
+
+.navbar-nav {
+	margin: 0 auto;
+}
+
+.nav-item {
+	padding: 1.5rem;
+}
+
+.navbar-expand-md .navbar-nav .nav-link {
+	padding-right: 2.0rem;
+	padding-left: 2.0rem;
+}
+
+.contentind {
+	margin: 0 auto;
+	text-align: center;
+}
+
+.content {
+	margin: 50px auto;
+	text-align: center;
+}
+
+.title {
+	font-size: 50px;
+	margin: 20px auto;
+	text-align: center;
+}
+
+.wraplogin {
+	border: 1px solid lightgray;
+	border-radius: 10px;
+	padding: 40px 10px;
+	margin: 30px auto 70px auto;
+	max-width: 450px;
+}
+
+.wrapform {
+	border: 1px solid lightgray;
+	border-radius: 10px;
+	padding: 20px;
+	margin: 0 auto 40px auto;
+	max-width: 450px;
+}
+
+.form-signin {
+	padding: 15px 15px 10px 15px;
+}
+
+.footer {
+	background-color: #343a40;
+	color: white;
+	text-align: center;
+	padding: .7rem 0 1rem;
+	width: 100%;
+}
+
+.btn-orange { background: orange; }

@@ -1,0 +1,48 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.anim.clinic.admin.pay.biz.APayDAO">
+	<!-- <select id="getCompletedPayments" resultType="com.anim.clinic.admin.pay.biz.ACompletedPayBean"> 
+		SELECT p_number, partner_user_id, item_name, quantity, total_amount, payment_method_type, 
+		approved_at FROM pay ORDER BY p_number DESC </select> -->
+	<delete id="payDelete" parameterType="int">
+		DELETE FROM pay
+		WHERE
+		p_number = #{p_number}
+	</delete>
+
+	<resultMap id="ACompletedPayBeanMap"
+		type="com.anim.clinic.admin.pay.biz.ACompletedPayBean">
+		<id property="p_number" column="p_number" />
+		<result property="partner_user_id" column="partner_user_id" />
+		<result property="item_name" column="item_name" />
+		<result property="quantity" column="quantity" />
+		<result property="total_amount" column="total_amount" />
+		<result property="payment_method_type"
+			column="payment_method_type" />
+		<result property="approved_at" column="approved_at" />
+	</resultMap>
+
+	<select id="getCompletedPaymentsByPage" parameterType="map"
+		resultMap="ACompletedPayBeanMap">
+		SELECT
+		p_number,
+		partner_user_id,
+		item_name,
+		quantity,
+		total_amount,
+		payment_method_type,
+		approved_at
+		FROM
+		pay
+		ORDER BY
+		p_number
+		DESC
+		LIMIT #{start}, #{pageSize}
+	</select>
+
+	<select id="getTotalCompletedPaymentsCount" resultType="int">
+		SELECT
+		COUNT(*) FROM pay
+	</select>
+</mapper>

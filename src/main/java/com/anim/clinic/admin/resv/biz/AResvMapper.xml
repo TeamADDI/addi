@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anim.clinic.admin.resv.biz.AResvDAO">
+
+	<!-- 예약 리스트 삭제 -->
+	<delete id="aResvDelete" parameterType="String">
+		DELETE FROM resv
+		WHERE
+		r_no = #{rNO}
+	</delete>
+
+
+	<select id="selectAResvList"
+		resultType="com.anim.clinic.admin.resv.biz.AResvBean">
+		SELECT resv.r_no AS rNo, resv.r_code AS rCode,
+		resv.p_category AS pCategory,
+		resv.u_id AS uId, resv.u_name AS uName,
+		resv.u_tel AS uTel, resv.u_email AS
+		uEmail, resv.u_post AS uPost,
+		resv.u_addr AS uAddr,
+		resv.r_name AS rName, resv.r_tel AS rTel,
+		resv.r_pet_name AS rPetName, resv.r_pet_age AS rPetAge,
+		resv.r_pet_gender AS
+		rPetGender, resv.r_pet_type AS rPetType,
+		resv.r_pet_size AS rPetSize,
+		resv.r_detail AS rDetail, resv.r_status AS
+		rStatus, resv.r_regdate AS
+		rRegdate, resv.r_date AS rDate, resv.r_time
+		AS rTime,
+		pet.p_price AS rPrice
+		FROM resv
+		JOIN pet ON resv.p_category =
+		pet.p_category
+		AND (resv.r_pet_size = pet.p_size OR resv.p_category =
+		'CL')
+	</select>
+
+	<resultMap id="AResvBeanMap"
+		type="com.anim.clinic.admin.resv.biz.AResvBean">
+		<id property="rNo" column="r_no" />
+		<result property="pCategory" column="p_category" />
+		<result property="uId" column="u_id" />
+		<result property="rDate" column="r_date" />
+		<result property="rTime" column="r_time" />
+		<result property="rName" column="r_name" />
+		<result property="rTel" column="r_tel" />
+		<result property="rPetName" column="r_pet_name" />
+		<result property="rPetAge" column="r_pet_age" />
+		<result property="rPetSize" column="r_pet_size" />
+		<result property="rDetail" column="r_detail" />
+	</resultMap>
+
+	<select id="getCompletedResvByPage" parameterType="map"
+		resultMap="AResvBeanMap">
+		SELECT resv.r_no AS rNo, resv.p_category AS pCategory, 
+		resv.u_addr AS uAddr, resv.r_name AS rName,
+		resv.r_date AS rDate, resv.r_time AS rTime,
+		resv.r_name AS rName, resv.r_tel AS rTel, 
+		resv.u_id AS uId, resv.r_pet_name AS rPetName,
+		resv.r_pet_age AS rPetAge, resv.r_pet_size AS rPetSize, 
+		resv.r_detail AS rDetail
+		FROM
+		resv
+		ORDER BY
+		r_no
+		DESC LIMIT #{start}, #{pageSize};
+	</select>
+
+	<select id="getTotalCompletedResvCount" resultType="int">
+		SELECT
+		COUNT(*) FROM resv
+	</select>
+
+</mapper>

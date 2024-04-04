@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anim.clinic.admin.cart.biz.ACartDAO">
+	<resultMap id="aCartMap"
+		type="com.anim.clinic.admin.cart.biz.ACartBean">
+		<id property="c_no" column="c_no" />
+		<result property="u_id" column="u_id" />
+		<result property="item_num" column="item_num" />
+		<result property="c_name" column="c_name" />
+		<result property="c_category" column="c_category" />
+		<result property="c_quantity" column="c_quantity" />
+		<result property="c_price" column="c_price" />
+	</resultMap>
+	<select id="list" resultType="map">
+<![CDATA[ SELECT c_no, u_id, item_num, c_name, c_category, c_quantity, c_price FROM cart ORDER BY c_no DESC LIMIT #{startIndex}, #{pageSize} ]]>
+	</select>
+	<select id="getTotalCount" resultType="int">
+<![CDATA[ SELECT COUNT(*) FROM cart ]]>
+	</select>
+	<!-- 장바구니 상품 수량 수정 -->
+	<update id="update"
+		parameterType="com.anim.clinic.admin.cart.biz.ACartBean">
+<![CDATA[ UPDATE cart SET c_quantity = #{c_quantity} WHERE c_no = #{c_no} ]]>
+	</update>
+	<!-- 장바구니 상품 삭제 -->
+	<delete id="delete"
+		parameterType="com.anim.clinic.admin.cart.biz.ACartBean">
+<![CDATA[ DELETE FROM cart WHERE c_no = #{c_no} ]]>
+	</delete>
+</mapper>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anim.clinic.client.cart.biz.CartDAO">
+	<!-- 수정된 파트(상주) -->
+	<insert id="insertCart"
+		parameterType="com.anim.clinic.client.cart.biz.CartBean">
+		insert into cart (u_id, c_name, c_category, item_num,
+		c_quantity, c_price)
+		values (#{u_id}, #{c_name},
+		#{c_category},
+		#{item_num}, #{c_quantity}, #{c_price})
+	</insert>
+
+	<select id="getTotalCartCount" resultType="int">
+		SELECT
+		COUNT(*)
+		FROM
+		cart
+		where u_id = #{u_id}
+	</select>
+
+	<resultMap id="CartBean"
+		type="com.anim.clinic.client.cart.biz.CartBean">
+		<id property="c_no" column="c_no" />
+		<result property="c_name" column="c_name" />
+		<result property="c_category" column="c_category" />
+		<result property="c_quantity" column="c_quantity" />
+		<result property="item_num" column="item_num" />
+		<result property="c_price" column="c_price" />
+		<result property="u_id" column="u_id" />
+
+	</resultMap>
+
+	<!-- 페이징 처리 후 게시글 조회 -->
+	<select id="pagingBean" parameterType="map"
+		resultType="com.anim.clinic.client.cart.biz.CartBean">
+		SELECT
+		*FROM (
+		SELECT A.item_name,
+		A.i_img,
+		A.i_category,
+		A.i_quantity,
+		A.i_price,
+		B.u_id
+		, ROW_NUMBER() OVER () AS row_num
+		FROM
+		cart A
+		INNER JOIN users B ON A.u_id = B.u_id
+		WHERE B.u_id = #{u_id}
+		) AS
+		sub
+		WHERE sub.row_num BETWEEN 1 AND 10;
+	</select>
+
+	<update id="update"
+		parameterType="com.anim.clinic.client.cart.biz.CartBean">
+		UPDATE cart
+		SET
+		c_quantity = #{c_quantity}
+		WHERE
+		c_name =
+		#{c_name} and u_id = #{u_id};
+	</update>
+
+	<delete id="delete"
+		parameterType="com.anim.clinic.client.cart.biz.CartBean">
+		DELETE from cart
+		WHERE c_name = #{c_name} and u_id = #{u_id};
+	</delete>
+
+	<select id="getCartByPage" parameterType="map"
+		resultMap="CartBean">
+      <![CDATA[
+        SELECT c_name, c_category, c_price, item_num, c_quantity, u_id
+      	FROM cart
+      	where u_id = #{u_id}
+        order by c_no desc
+        LIMIT #{start}, #{pageSize}  
+      ]]>
+	</select>
+
+	<!-- 상품명을 그룹화 인기상품 상위 3개 수정(상주) -->
+	<select id="getBestItems" resultType="map">
+		SELECT i.item_num,
+		c.c_name, i.i_img, c.c_price, COUNT(*) as count
+		FROM cart c
+		JOIN item i
+		ON c.item_num = i.item_num
+		GROUP BY c.c_name
+		ORDER BY count DESC
+		LIMIT 3;
+	</select>
+</mapper>

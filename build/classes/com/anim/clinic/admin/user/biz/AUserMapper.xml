@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.anim.clinic.admin.user.biz.AUserDAO">
+
+	<select id="countBoard" resultType="int">
+		SELECT COUNT(*) FROM users
+	</select>
+
+	<select id="pickId"
+		resultType="com.anim.clinic.admin.user.biz.AUserBean">
+		select u_id, u_pw from users where u_id = #{u_id}
+	</select>
+
+	<select id="detail"
+		resultType="com.anim.clinic.admin.user.biz.AUserBean">
+		select u_id, u_pw, u_name, u_tel, u_email, u_birth, u_addr
+		from users
+		where u_id = #{u_id}
+	</select>
+
+	<insert id="insert"
+		parameterType="com.anim.clinic.admin.user.biz.AUserBean">
+		insert into users (u_id, u_pw, u_name, u_email, u_tel,
+		u_birth,
+		u_age, u_gender, u_post, u_addr)
+		values ( #{u_id}, #{u_pw},
+		#{u_name}, #{u_email}, #{u_tel},
+		#{u_birth}, #{u_age}, #{u_gender},
+		#{u_post}, #{u_addr})
+	</insert>
+
+	<insert id="memberRegist"
+		parameterType="com.anim.clinic.admin.user.biz.AUserBean">
+		insert into users (u_id, u_pw, u_name, u_email, u_tel,
+		u_birth,
+		u_age, u_gender, u_post, u_addr)
+		values ( #{u_id}, #{u_pw},
+		#{u_name}, #{u_email}, #{u_tel},
+		#{u_birth}, #{u_age}, #{u_gender},
+		#{u_post}, #{u_addr})
+	</insert>
+
+	<select id="selectBoard"
+		resultType="com.anim.clinic.admin.user.biz.AUserBean">
+		SELECT
+		u_no,
+		u_id,
+		u_name,
+		u_email,
+		u_tel,
+		u_birth,
+		u_age,
+		u_gender,
+		u_addr,
+		u_regdate
+		FROM
+		users
+		ORDER BY u_no DESC
+		LIMIT ${start}, 10
+	</select>
+
+	<!-- 회원 상세정보 불러오기 -->
+	<select id="getMemberDetail" parameterType="java.lang.String"
+		resultType="com.anim.clinic.admin.user.biz.AUserBean">
+		SELECT
+		u_id,
+		u_name,
+		u_email,
+		u_tel,
+		u_birth,
+		u_age,
+		u_gender,
+		u_post,
+		u_addr,
+		u_regdate
+		FROM
+		users
+		WHERE
+		u_id = #{u_id}
+	</select>
+
+	<!-- 회원 상세정보 수정하기 -->
+	<update id="memberUpdate"
+		parameterType="com.anim.clinic.admin.user.biz.AUserBean">
+		UPDATE users
+		SET
+		u_name = #{u_name},
+		u_email = #{u_email},
+		u_tel = #{u_tel},
+		u_age = #{u_age},
+		u_gender = #{u_gender},
+		u_post =
+		#{u_post},
+		u_addr = #{u_addr}
+		WHERE
+		u_id = #{u_id}
+	</update>
+
+	<delete id="memberDelete">
+		DELETE FROM users WHERE u_id = #{u_id}
+	</delete>
+
+	<select id="checkDuplicateId" resultType="int">
+		SELECT COUNT(*) FROM
+		users WHERE u_id = #{u_id}
+	</select>
+
+	<!-- 통계 회원가입 수 -->
+	<select id="joinChart"
+		resultType="com.anim.clinic.admin.user.biz.ChartBean">
+		SELECT DATE_FORMAT(u_regdate, '%Y-%m-%d') AS u_regdate,
+		COUNT(*) AS count
+		FROM users
+		WHERE u_regdate BETWEEN DATE_SUB(CURDATE(),
+		INTERVAL 7 DAY) AND CURDATE()
+		GROUP BY u_regdate;
+	</select>
+
+	<select id="resvChart"
+		resultType="com.anim.clinic.admin.user.biz.ChartBean">
+		SELECT p_category, COUNT(*) AS count
+		FROM resv
+		GROUP BY
+		p_category
+		ORDER BY p_category;
+	</select>
+
+	<select id="payChart"
+		resultType="com.anim.clinic.admin.user.biz.ChartBean">
+		SELECT DATE(approved_at) AS payment_date,
+		COUNT(*) AS count
+		FROM pay
+		WHERE approved_at BETWEEN DATE_SUB(CURDATE(),
+		INTERVAL 7 DAY) AND CURDATE()
+		GROUP BY DATE(approved_at);
+	</select>
+
+	<select id="cartChart"
+		resultType="com.anim.clinic.admin.user.biz.ChartBean">
+		SELECT item.item_code, cart.c_quantity AS quantity
+		FROM cart
+		JOIN item ON cart.c_name = item.item_name
+		WHERE cart.c_quantity >= 2;
+	</select>
+
+</mapper>
